@@ -16,6 +16,7 @@ class Strategy:
 	def _onWin(self):
 		pass
 
+
 	def start(self, rouletteTable):
 		pass
 
@@ -25,6 +26,7 @@ class Strategy:
 
 
 class DoubleOnLoss(Strategy):
+	
 	def __init__(self, startingMoney, startingBet, maxBet):
 		super().__init__(startingMoney, startingBet, maxBet)
 
