@@ -31,6 +31,8 @@ class DoubleOnLoss(Strategy):
 	def _onLoss(self):
 		self.currentMoney -= self.currentBet
 		self.currentBet *= 2
+		if self.currentBet > self.currentMoney:
+			self.currentBet = self.startingBet
 		# print("Loss")
 
 	def _onWin(self):
@@ -48,7 +50,7 @@ class DoubleOnLoss(Strategy):
 			currentMoneyValues = []
 			for i in range(0, maxSpins):
 
-				if self.currentMoney < 0: 
+				if self.currentMoney < self.startingBet: 
 					# print("You lost all your money")
 					currentMoneyValues.append(self.currentMoney)
 					continue
