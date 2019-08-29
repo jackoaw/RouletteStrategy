@@ -2,7 +2,7 @@ import Strategy
 import Roulette
 
 MAX_BET = 2000
-STARTING_MONEY = 2000
+STARTING_MONEY = 20000
 STARTING_BET = 20
 MAX_SPINS = 100
 

@@ -68,7 +68,7 @@ class DoubleOnLoss(Strategy):
 					self._onLoss()
 
 				if self.currentBet > self.maxBet:
-					currentBet = self.startingBet
+					self.currentBet = self.startingBet
 
 				# self._printPosition()
 
