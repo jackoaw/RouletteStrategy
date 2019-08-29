@@ -31,12 +31,12 @@ class DoubleOnLoss(Strategy):
 	def _onLoss(self):
 		self.currentMoney -= self.currentBet
 		self.currentBet *= 2
-		print("Loss")
+		# print("Loss")
 
 	def _onWin(self):
 		self.currentMoney += self.currentBet*2
 		self.currentBet = self.startingBet
-		print("Win")
+		# print("Win")
 
 	def start(self, rouletteTable, maxSpins, numberOfSimulations):
 		x_axis = []
@@ -49,7 +49,7 @@ class DoubleOnLoss(Strategy):
 			for i in range(0, maxSpins):
 
 				if self.currentMoney < 0: 
-					print("You lost all your money")
+					# print("You lost all your money")
 					currentMoneyValues.append(self.currentMoney)
 					continue
 
@@ -68,7 +68,7 @@ class DoubleOnLoss(Strategy):
 				if self.currentBet > self.maxBet:
 					currentBet = self.startingBet
 
-				self._printPosition()
+				# self._printPosition()
 
 				currentMoneyValues.append(self.currentMoney)
 
