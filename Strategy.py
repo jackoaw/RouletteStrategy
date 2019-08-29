@@ -7,6 +7,7 @@ class Strategy:
 		self.currentBet = startingBet
 		self.startingBet = startingBet
 		self.currentMoney = startingMoney
+		self.startingMoney = startingMoney
 		self.maxBet = maxBet
 
 	def _onLoss(self):
@@ -38,10 +39,19 @@ class DoubleOnLoss(Strategy):
 		print("Win")
 
 	def start(self, rouletteTable, maxSpins, numberOfSimulations):
+		x_axis = []
+		for s in range(0, maxSpins):
+			x_axis.append(str(s))
+		lg = _LineGraph(x_axis, "Double on Loss Strategy")
+
 		for k in range(0, numberOfSimulations):
+			currentMoneyValues = []
 			for i in range(0, maxSpins):
+
 				if self.currentMoney < 0: 
 					print("You lost all your money")
+					currentMoneyValues.append(self.currentMoney)
+					continue
 
 				random_float = random.random()
 				chance_of_winning = .5
@@ -60,8 +70,13 @@ class DoubleOnLoss(Strategy):
 
 				self._printPosition()
 
-	def plot(self):
-		pass
+				currentMoneyValues.append(self.currentMoney)
+
+			lg.plot("Simulation %i" % k, currentMoneyValues)
+			lg.changeColor()
+			self.currentMoney = self.startingMoney
+			self.currentBet = self.startingBet
+		lg.show()
 
 
 class _LineGraph:
@@ -81,9 +96,9 @@ class _LineGraph:
 		self.color = "C" + str(old_color + 1)
 		
 
-	def plot(self, symbol, diff_array):
-		if len(diff_array) == self.x_len:
-			plt.plot(self.x_axis, diff_array, color=self.color, label=symbol)
+	def plot(self, value_title, value_array):
+		if len(value_array) == self.x_len:
+			plt.plot(self.x_axis, value_array, color=self.color, label=value_title)
 
 	def show(self):
 		plt.legend()
