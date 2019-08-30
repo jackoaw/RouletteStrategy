@@ -30,8 +30,8 @@ class Strategy:
 		for s in range(0, maxSpins):
 			x_axis.append(str(s))
 		lg = _LineGraph(x_axis, stratName)
-		avg_end_value_wo_0 = 0
-		avg_end_value_w_0 = 0
+		combined_end_value_wo_0 = 0
+		combined_end_value_w_0 = 0
 		for k in range(0, numberOfSimulations):
 			currentMoneyValues = [0]*maxSpins
 			bust = False
@@ -50,16 +50,21 @@ class Strategy:
 				success_count += 1
 			self.currentMoney = self.startingMoney
 			self.currentBet = self.startingBet
-			avg_end_value_w_0 += currentMoneyValues[i]
+			combined_end_value_w_0 += currentMoneyValues[i]
 			if not bust:
-				avg_end_value_wo_0 += currentMoneyValues[i]
+				combined_end_value_wo_0 += currentMoneyValues[i]
 			else:
 				bust_count += 1
 		print("Ran %i simulations, spinning %i times, starting with %i, starting bet: %i"%(numberOfSimulations, maxSpins, self.startingMoney, self.startingBet))
-		avg_end_value_w_0 = avg_end_value_w_0/numberOfSimulations
-		avg_end_value_wo_0 = avg_end_value_wo_0/(numberOfSimulations-bust_count)
-		print("Average money at the end including failures: %i"%avg_end_value_w_0)
-		print("Average money at the end not including failures: %i"%avg_end_value_wo_0)
+		print("Average money at the end including failures: %i"%(combined_end_value_w_0/numberOfSimulations))
+		print("Average money at the end not including failures: %i"%(combined_end_value_wo_0/(numberOfSimulations-bust_count)))
+
+
+		net_money_increase = combined_end_value_w_0 - self.startingMoney*numberOfSimulations
+		precentage_money_increase = net_money_increase/(self.startingMoney*numberOfSimulations)
+		# print("Money at the end if you went to the casino %i times and did this strategy: ")
+		print("Net money percent increase over %i times: %f%%"%(numberOfSimulations, precentage_money_increase*100))
+
 		print("Successfullness of this strategy over %i runs is %f%%" %(numberOfSimulations, (success_count/numberOfSimulations)*100))
 		lg.show()
 
