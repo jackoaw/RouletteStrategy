@@ -11,4 +11,4 @@ NUM_SIMULATIONS = 11
 table = Roulette.Roulette()
 
 doubleOnLoss = Strategy.DoubleOnLoss(STARTING_MONEY,STARTING_BET,MAX_BET)
-doubleOnLoss.start(table, MAX_SPINS, NUM_SIMULATIONS)
+doubleOnLoss.start(table, MAX_SPINS, NUM_SIMULATIONS, "Double on Loss Strategy")

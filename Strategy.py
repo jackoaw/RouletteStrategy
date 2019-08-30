@@ -21,11 +21,11 @@ class Strategy:
 	def spin(self, rouletteTable):
 		pass
 
-	def start(self, rouletteTable, maxSpins, numberOfSimulations):
+	def start(self, rouletteTable, maxSpins, numberOfSimulations, stratName):
 		x_axis = []
 		for s in range(0, maxSpins):
 			x_axis.append(str(s))
-		lg = _LineGraph(x_axis, "Double on Loss Strategy")
+		lg = _LineGraph(x_axis, stratName)
 
 		for k in range(0, numberOfSimulations):
 			currentMoneyValues = []
@@ -89,9 +89,8 @@ class DoubleOnLoss(Strategy):
 		# self._printPosition()
 		return True
 
-	def start(self, rouletteTable, maxSpins, numberOfSimulations):
-		super().start(rouletteTable, maxSpins, numberOfSimulations)
-
+	def start(self, rouletteTable, maxSpins, numberOfSimulations, stratName):
+		super().start(rouletteTable, maxSpins, numberOfSimulations, stratName)
 
 class _LineGraph:
 
