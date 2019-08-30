@@ -10,6 +10,7 @@ class Strategy:
 		self.startingMoney = startingMoney
 		self.maxBet = maxBet
 
+
 	def _onLoss(self):
 		pass
 
@@ -21,9 +22,10 @@ class Strategy:
 	def spin(self, rouletteTable):
 		pass
 
+
 	def start(self, rouletteTable, maxSpins, numberOfSimulations, stratName):
 		success_count = 0
-		fail_count = 0
+		bust_count = 0
 		x_axis = []
 		for s in range(0, maxSpins):
 			x_axis.append(str(s))
@@ -32,34 +34,35 @@ class Strategy:
 		avg_end_value_w_0 = 0
 		for k in range(0, numberOfSimulations):
 			currentMoneyValues = [0]*maxSpins
-			fail = False
+			bust = False
 			for i in range(0, maxSpins):
 
 				if not self.spin(rouletteTable):
 					currentMoneyValues[i] = (self.currentMoney)
-					fail = True
+					bust = True
 					break
 
 				currentMoneyValues[i] = (self.currentMoney)
 
 			lg.plot("Simulation %i" % k, currentMoneyValues)
 			lg.changeColor()
-			if(self.currentMoney > self.startingBet):
+			if(self.currentMoney > self.startingMoney):
 				success_count += 1
 			self.currentMoney = self.startingMoney
 			self.currentBet = self.startingBet
 			avg_end_value_w_0 += currentMoneyValues[i]
-			if not fail: 
+			if not bust:
 				avg_end_value_wo_0 += currentMoneyValues[i]
 			else:
-				fail_count += 1
+				bust_count += 1
 		print("Ran %i simulations, spinning %i times, starting with %i, starting bet: %i"%(numberOfSimulations, maxSpins, self.startingMoney, self.startingBet))
 		avg_end_value_w_0 = avg_end_value_w_0/numberOfSimulations
-		avg_end_value_wo_0 = avg_end_value_wo_0/(numberOfSimulations-fail_count)
+		avg_end_value_wo_0 = avg_end_value_wo_0/(numberOfSimulations-bust_count)
 		print("Average money at the end including failures: %i"%avg_end_value_w_0)
 		print("Average money at the end not including failures: %i"%avg_end_value_wo_0)
 		print("Successfullness of this strategy over %i runs is %f%%" %(numberOfSimulations, (success_count/numberOfSimulations)*100))
 		lg.show()
+
 
 	def _printPosition(self):
 		print("You have $%i" % self.currentMoney)
