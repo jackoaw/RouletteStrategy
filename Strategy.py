@@ -88,7 +88,7 @@ class _LineGraph:
 	def __init__(self, x_axis, title):
 		self.x_axis = x_axis
 		self.title = title
-		self.color = "C0"
+		self.color = (0,0,0)
 		self.x_len = len(x_axis)
 
 		mpl.style.use('seaborn')
@@ -97,7 +97,10 @@ class _LineGraph:
 	# Change the color for each new symbol
 	def changeColor(self):
 		old_color = int(self.color[1])
-		self.color = "C" + str(old_color + 1)
+		r = random.random()
+		g = random.random()
+		b = random.random()
+		self.color = (r,g,b)
 		
 
 	def plot(self, value_title, value_array):
