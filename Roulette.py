@@ -5,7 +5,7 @@ class Roulette:
 		pass
 
 	# There are 35 numbers but ignoring for now	
-	def _colorSpin(self):
+	def colorSpin(self):
 		random_float = random.random()
 		chance_of_winning = .474
 		if random_float <= chance_of_winning:
@@ -15,7 +15,7 @@ class Roulette:
 		else:
 			return "green"
 
-	def betOnColor(self, color_from_player):
-		if color_from_player == self._colorSpin():
-			return True
-		return False
+	# def betOnColor(self, color_from_player):
+	# 	if color_from_player == self._colorSpin():
+	# 		return True
+	# 	return False

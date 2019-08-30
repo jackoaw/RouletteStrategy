@@ -2,11 +2,11 @@ import Strategy
 import Roulette
 
 MAX_BET = 500
-STARTING_MONEY = 1000
+STARTING_MONEY = 10000
 STARTING_BET = 20
-MAX_SPINS = 200
+MAX_SPINS = 100
 
-NUM_SIMULATIONS = 100
+NUM_SIMULATIONS = 10
 
 table = Roulette.Roulette()
 

@@ -57,7 +57,10 @@ class Strategy:
 				bust_count += 1
 		print("Ran %i simulations, spinning %i times, starting with %i, starting bet: %i"%(numberOfSimulations, maxSpins, self.startingMoney, self.startingBet))
 		print("Average money at the end including failures: %i"%(combined_end_value_w_0/numberOfSimulations))
-		print("Average money at the end not including failures: %i"%(combined_end_value_wo_0/(numberOfSimulations-bust_count)))
+		try:
+			print("Average money at the end not including failures: %i"%(combined_end_value_wo_0/(numberOfSimulations-bust_count)))
+		except:
+			print("Strategy was failure")
 
 
 		net_money_increase = combined_end_value_w_0 - self.startingMoney*numberOfSimulations
@@ -87,9 +90,14 @@ class DoubleOnLoss(Strategy):
 		# print("Loss")
 
 	def _onWin(self):
-		self.currentMoney += self.currentBet*2
+		self.currentMoney += self.currentBet
 		self.currentBet = self.startingBet
 		# print("Win")
+
+
+	def _onGreen(self):
+		self.currentMoney -= self.currentBet/2
+		self.currentBet = self.startingBet
 
 
 	def spin(self, rouletteTable):
@@ -104,8 +112,10 @@ class DoubleOnLoss(Strategy):
 		else:
 			colorBet = "black"
 
-		if rouletteTable.betOnColor(colorBet):
+		if rouletteTable.colorSpin() == colorBet:
 			self._onWin()
+		elif rouletteTable.colorSpin() == "green":
+			self._onGreen()
 		else:
 			self._onLoss()
 
