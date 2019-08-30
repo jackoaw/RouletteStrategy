@@ -13,12 +13,35 @@ class Strategy:
 	def _onLoss(self):
 		pass
 
+
 	def _onWin(self):
 		pass
 
 
-	def start(self, rouletteTable):
+	def spin(self, rouletteTable):
 		pass
+
+	def start(self, rouletteTable, maxSpins, numberOfSimulations):
+		x_axis = []
+		for s in range(0, maxSpins):
+			x_axis.append(str(s))
+		lg = _LineGraph(x_axis, "Double on Loss Strategy")
+
+		for k in range(0, numberOfSimulations):
+			currentMoneyValues = []
+			for i in range(0, maxSpins):
+
+				if not self.spin(rouletteTable):
+					currentMoneyValues.append(self.currentMoney)
+					continue	
+
+				currentMoneyValues.append(self.currentMoney)
+
+			lg.plot("Simulation %i" % k, currentMoneyValues)
+			lg.changeColor()
+			self.currentMoney = self.startingMoney
+			self.currentBet = self.startingBet
+		lg.show()
 
 	def _printPosition(self):
 		print("You have $%i" % self.currentMoney)
@@ -42,45 +65,32 @@ class DoubleOnLoss(Strategy):
 		self.currentBet = self.startingBet
 		# print("Win")
 
-	def start(self, rouletteTable, maxSpins, numberOfSimulations):
-		x_axis = []
-		for s in range(0, maxSpins):
-			x_axis.append(str(s))
-		lg = _LineGraph(x_axis, "Double on Loss Strategy")
 
-		for k in range(0, numberOfSimulations):
-			currentMoneyValues = []
-			for i in range(0, maxSpins):
+	def spin(self, rouletteTable):
+		if self.currentMoney < self.startingBet: 
+			# print("You lost all your money")
+			return False
 
-				if self.currentMoney < self.startingBet: 
-					# print("You lost all your money")
-					currentMoneyValues.append(self.currentMoney)
-					continue
+		random_float = random.random()
+		chance_of_winning = .5
+		if random_float <= chance_of_winning:
+			colorBet = "red"
+		else:
+			colorBet = "black"
 
-				random_float = random.random()
-				chance_of_winning = .5
-				if random_float <= chance_of_winning:
-					colorBet = "red"
-				else:
-					colorBet = "black"
+		if rouletteTable.betOnColor(colorBet):
+			self._onWin()
+		else:
+			self._onLoss()
 
-				if rouletteTable.betOnColor(colorBet):
-					self._onWin()
-				else:
-					self._onLoss()
-
-				if self.currentBet > self.maxBet:
-					self.currentBet = self.startingBet
-
-				# self._printPosition()
-
-				currentMoneyValues.append(self.currentMoney)
-
-			lg.plot("Simulation %i" % k, currentMoneyValues)
-			lg.changeColor()
-			self.currentMoney = self.startingMoney
+		if self.currentBet > self.maxBet:
 			self.currentBet = self.startingBet
-		lg.show()
+
+		# self._printPosition()
+		return True
+
+	def start(self, rouletteTable, maxSpins, numberOfSimulations):
+		super().start(rouletteTable, maxSpins, numberOfSimulations)
 
 
 class _LineGraph:
