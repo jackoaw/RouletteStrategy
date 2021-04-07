@@ -17,9 +17,8 @@ Please change them accordingly for what you'd like to visualize.
 
 ## Run Instructions 
 
-`pip install -r requirements.txt
-
-python go.py`
+`pip install -r requirements.txt`
+`python go.py`
 
 ## Future considerations
 
